@@ -7,6 +7,7 @@ public class AudioController : MonoBehaviour
     public AudioSource musicSource;
     public AudioClip musicClipOne;
     public AudioClip musicClipTwo;
+    //public AudioClip musicClipThree;
     Animator anim;
     
     void Start()

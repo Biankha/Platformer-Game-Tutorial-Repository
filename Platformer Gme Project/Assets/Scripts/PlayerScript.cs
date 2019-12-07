@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -11,12 +12,14 @@ public class PlayerScript : MonoBehaviour
     public Text winText;
     public Text livesText;
     public Text levelText;
+    public Text trapText;
     private int scoreValue = 0;
     private int lives;
     public GameObject other;
     public AudioSource musicSource;
     public AudioClip musicClipOne;
-    public AudioClip musicClipTwo;
+    public AudioClip musicClipThree;
+    public AudioClip musicClipFour;
     Animator anim;
     private bool facingRight = true;
 
@@ -26,10 +29,9 @@ public class PlayerScript : MonoBehaviour
         scoreText.text = "Score: " + scoreValue.ToString();
         winText.text = "";
         levelText.text = "";
+        trapText.text = "";
         livesText.text = "Lives: 3";
         lives = 3;
-        musicSource.clip = musicClipTwo;
-        musicSource.Play();
         SetWinText();
         SetScoreText();
         anim = GetComponent<Animator>();
@@ -74,7 +76,9 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
                 rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
-            }
+                musicSource.clip = musicClipThree;
+                musicSource.Play();
+            }  
         }
     }
 
@@ -86,6 +90,26 @@ public class PlayerScript : MonoBehaviour
             lives = lives - 1;
             SetLivesText();
             SetScoreText();
+        }
+
+        if (other.gameObject.CompareTag("Powerup"))
+        {
+            other.gameObject.SetActive(false);
+            speed = speed * 4;
+            SetLivesText();
+            SetScoreText();
+        }
+
+        if (other.gameObject.CompareTag("Trapdoor"))
+        {
+            other.gameObject.SetActive(false);
+            
+            SetLivesText();
+            SetScoreText();
+            trapText.text = "Ha Ha! That was a trap door bridge, you fool!";
+            musicSource.clip = musicClipFour;
+            musicSource.Play();
+
         }
     }
 
